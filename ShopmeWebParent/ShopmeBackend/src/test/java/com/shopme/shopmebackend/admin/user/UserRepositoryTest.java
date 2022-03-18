@@ -1,5 +1,6 @@
 package com.shopme.shopmebackend.admin.user;
 
+import com.shopme.shopmebackend.admin.user.repository.UserRepository;
 import com.shopme.shopmecommon.entity.Role;
 import com.shopme.shopmecommon.entity.User;
 import org.junit.jupiter.api.Test;
@@ -8,8 +9,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -61,10 +60,10 @@ public class UserRepositoryTest {
 
     @Test
     public void testUpdateUserDetails() {
-        User user = userRepository.findById(1).get();
+        User user = userRepository.findById(2).get();
 
-        user.setEmail("cuongUpdate@gmail.com");
-        user.setEnabled(true);
+        user.setEmail("fakenvc5802@gmail.com");
+        user.setEnabled(false);
     }
 
     @Test
@@ -81,7 +80,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testDeleteUser() {
-        Integer userId = 1;
+        Integer userId = 3;
         userRepository.deleteById(userId);
     }
 }
