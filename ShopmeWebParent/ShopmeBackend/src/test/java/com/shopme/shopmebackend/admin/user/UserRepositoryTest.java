@@ -26,10 +26,13 @@ public class UserRepositoryTest {
     @Test
     public void testCreateUserWithOneRole() {
         Role roleAdmin = entityManager.find(Role.class, 1);
-        User userCuong = new User("cuongnvc@gmail.com", "123", "Cuong", "Nguyen Van");
+        User userCuong = new User("bcd@test", "987", "Cuong", "Thi");
         userCuong.addRole(roleAdmin);
 
+        System.out.println("============" + userCuong + "====================");
+
         User savedUser = userRepository.save(userCuong);
+
         assertThat(savedUser.getId()).isGreaterThan(0);
     }
 

@@ -38,9 +38,8 @@ public class UserController {
 
     @PostMapping("users/save")
     public String saveUser(User user, RedirectAttributes redirectAttributes) {
-        System.out.println(user);
         userService.save(user);
-        redirectAttributes.addFlashAttribute("message", "Tạo user thành công.");
+        redirectAttributes.addFlashAttribute("message", "Tạo user thành công. .");
         return "redirect:/users";
     }
 }
