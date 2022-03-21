@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minium-scale=1.0">
     <title>Home - Shopme Admin</title>
 
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/css/all.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
 </head>
 <body>
 
@@ -66,7 +69,7 @@
     <!-- content -->
     <div>
         <h2>Manage users</h2>
-        <a th:href="@{/users/new}">Create new user</a>
+        <a th:href="@{/users/new}" style="text-decoration: underline">Create new user</a>
     </div>
 
     <div th:if="${message != null}" class="alert alert-success text-center">
@@ -77,26 +80,38 @@
         <table class="table table-bordered table-hover table-responsive-xl">
             <thead class="thead-dark">
                 <tr>
-                    <th>User ID</th>
-                    <th>Photos</th>
-                    <th>Email</th>
-                    <th>First name</th>
-                    <th>Last name</th>
-                    <th>Roles</th>
-                    <th>Enabled</th>
+                    <th class="text-center">User ID</th>
+                    <th class="text-center">Photos</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">First name</th>
+                    <th class="text-center">Last name</th>
+                    <th class="text-center">Roles</th>
+                    <th class="text-center">Enabled</th>
+                    <th class="text-center">Manage</th>
                 </tr>
             </thead>
 
             <tbody>
                 <tr th:each="user : ${listUsers}">
-                    <td>[[${user.id}]]</td>
-                    <td>[[${user.photos}]]</td>
-                    <td>[[${user.email}]]</td>
-                    <td>[[${user.firstName}]]</td>
-                    <td>[[${user.lastName}]]</td>
-                    <td>[[${user.roles}]]</td>
-                    <td>[[${user.enabled}]]</td>
-                    <td>Edit &nbsp; Delete</td>
+                    <td class="text-center">[[${user.id}]]</td>
+                    <td class="text-center">
+                        <i class="fa-solid fa-user fa-2x icon-silver"></i>
+                    </td>
+                    <td class="text-center">[[${user.email}]]</td>
+                    <td class="text-center">[[${user.firstName}]]</td>
+                    <td class="text-center">[[${user.lastName}]]</td>
+                    <td class="text-center">[[${user.roles}]]</td>
+
+                    <td class="text-center">
+                        <a href="" th:if="${user.enabled == true}" class="fa-solid fa-check icon-green"></a>
+                        <a href="" th:if="${user.enabled == false}" class="fa-solid fa-xmark icon-red"></a>
+                    </td>
+
+                    <td class="text-center">
+                        <a href="" class="fa-solid fa-pen-to-square"></a>
+                        &nbsp;
+                        <a href="" class="fa-solid fa-trash icon-red"></a>
+                    </td>
                 </tr>
             </tbody>
 

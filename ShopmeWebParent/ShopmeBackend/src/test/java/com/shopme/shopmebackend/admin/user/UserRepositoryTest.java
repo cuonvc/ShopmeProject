@@ -86,4 +86,12 @@ public class UserRepositoryTest {
         Integer userId = 3;
         userRepository.deleteById(userId);
     }
+
+    @Test
+    public void testGetUserByEmail() {
+        String email = "test@test";  //this email already exist (run ok)
+//        String email = "test1@test";  //this email does not exist yet (run false)
+        User user = userRepository.getUserByEmail(email);
+        assertThat(user).isNotNull();
+    }
 }
