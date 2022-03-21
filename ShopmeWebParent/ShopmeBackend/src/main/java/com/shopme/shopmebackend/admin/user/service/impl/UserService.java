@@ -42,13 +42,15 @@ public class UserService implements IUserService {
         userRepository.save(user);
     }
 
+    @Override
+    public boolean isEmailUniqe(String email) {
+        User userByEmail = userRepository.getUserByEmail(email);
+        return userByEmail == null;  //user is not exist yet
+    }
+
     private void encodePassword(User user) {
         String encodedPassword = passwordEncoder.encode(user.getPassWord());
         user.setPassWord(encodedPassword);
     }
 
-    public boolean isEmailUniqe(String email) {
-        User userByEmail = userRepository.getUserByEmail(email);
-        return userByEmail == null;  //user is not exist yet
-    }
 }

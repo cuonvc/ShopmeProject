@@ -10,4 +10,5 @@ public interface IUserService {
     List<User> listAll();
     List<Role> listRoles();
     void save(User user);
+    boolean isEmailUniqe(String email);
 }
