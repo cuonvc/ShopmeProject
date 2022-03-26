@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minium-scale=1.0">
-    <title>Create new user</title>
+    <title>[[${pageTitle}]]</title>
 
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
@@ -65,11 +65,12 @@
 
     <!-- content -->
     <div>
-        <h2>Manage users | Create user</h2>
+        <h2>Manage users | [[${pageTitle}]]</h2>
     </div>
 
     <form th:action="@{/users/save}" method="post" style="max-width: 700px; margin: 0 auto"
           th:object="${user}" onsubmit="return checkEmailUnique(this);">
+        <input type="hidden" th:field="*{id}"/>
         <div class="border border-secondary rounded p-3">
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Email:</label>
@@ -95,7 +96,8 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Password:</label>
                 <div class="col-sm-8">
-                    <input type="password" class="form-control" th:field="*{passWord}" required minlength="8" maxlength="100"/>
+                    <input type="password" th:if="${user.id == null}" class="form-control" th:field="*{passWord}" required minlength="8" maxlength="100"/>
+                    <input type="password" th:if="${user.id != null}" class="form-control" th:field="*{passWord}" minlength="8" maxlength="100"/>
                 </div>
             </div>
 
@@ -165,8 +167,9 @@
     function checkEmailUnique(form) {
         url = "[[@{/users/check_email}]]";
         userEmail = $("#email").val();
+        userId = $("#id").val();
         csrfValue = $("input[name = '_csrf']").val();  //CSRF token Spring security
-        params = {email: userEmail, _csrf: csrfValue};
+        params = {id: userId, email: userEmail, _csrf: csrfValue};
 
         $.post(url, params, function (response) {
             if (response == "OK") {
