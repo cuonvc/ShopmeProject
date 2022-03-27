@@ -84,6 +84,16 @@ public class UserService implements IUserService {
         }
     }
 
+    @Override
+    public void deteteById(Integer id) throws UserNotFoundException {
+        Long countById = userRepository.countById(id);
+        if (countById == null || countById == 0) {
+            throw new UserNotFoundException("Could not find any user by id: " + id);
+        } else {
+            userRepository.deleteById(id);
+        }
+    }
+
     private void encodePassword(User user) {
         String encodedPassword = passwordEncoder.encode(user.getPassWord());
         user.setPassWord(encodedPassword);

@@ -13,4 +13,5 @@ public interface IUserService {
     void save(User user);
     boolean isEmailUniqe(String email, Integer id);
     User getById(Integer id) throws UserNotFoundException;
+    void deteteById(Integer id) throws UserNotFoundException;
 }
