@@ -1,6 +1,7 @@
 package com.shopme.shopmebackend.admin.user.controller;
 
 import com.shopme.shopmebackend.admin.user.exception.UserNotFoundException;
+import com.shopme.shopmebackend.admin.user.repository.UserRepository;
 import com.shopme.shopmebackend.admin.user.service.impl.UserService;
 import com.shopme.shopmecommon.entity.Role;
 import com.shopme.shopmecommon.entity.User;
@@ -73,6 +74,24 @@ public class UserController {
             redirectAttributes.addFlashAttribute("message",
                     "User " + user.getEmail() + " has been deleted successfully.");
         } catch (UserNotFoundException exception) {
+            redirectAttributes.addFlashAttribute("message", exception.getMessage());
+        }
+
+        return "redirect:/users";
+    }
+
+    @GetMapping("/users/{id}/enabled/{status}")
+    public String enabledStatusUser(@PathVariable("id") Integer id,
+                    @PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) {
+        try {
+            User user = userService.getById(id);
+            userService.updateUserEnabledStatus(id, enabled);
+
+            String status = enabled ? "enable" : "disable";
+            String message = "The user " + user.getEmail() + " has been " + status;
+            redirectAttributes.addFlashAttribute("message", message);
+        } catch (UserNotFoundException exception) {
+            //exception of userService.getById();
             redirectAttributes.addFlashAttribute("message", exception.getMessage());
         }
 
