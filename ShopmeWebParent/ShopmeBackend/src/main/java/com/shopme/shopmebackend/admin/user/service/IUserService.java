@@ -10,7 +10,7 @@ public interface IUserService {
 
     List<User> listAll();
     List<Role> listRoles();
-    void save(User user);
+    User save(User user);
     boolean isEmailUniqe(String email, Integer id);
     User getById(Integer id) throws UserNotFoundException;
     void deteteById(Integer id) throws UserNotFoundException;

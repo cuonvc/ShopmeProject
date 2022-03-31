@@ -39,8 +39,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void save(User user) {
-        boolean isUpdatingUser = user.getId() != null;
+    public User save(User user) {
+        boolean isUpdatingUser = (user.getId() != null);
         if (isUpdatingUser) {
             User existingUser = userRepository.findById(user.getId()).get();
             if (user.getPassWord().isEmpty()) {
@@ -52,7 +52,7 @@ public class UserService implements IUserService {
             encodePassword(user);
         }
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override

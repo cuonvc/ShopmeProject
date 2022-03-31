@@ -1,5 +1,6 @@
 package com.shopme.shopmebackend.admin.user.controller;
 
+import com.shopme.shopmebackend.admin.FileUploadUtil;
 import com.shopme.shopmebackend.admin.user.exception.UserNotFoundException;
 import com.shopme.shopmebackend.admin.user.repository.UserRepository;
 import com.shopme.shopmebackend.admin.user.service.impl.UserService;
@@ -8,11 +9,15 @@ import com.shopme.shopmecommon.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -43,9 +48,21 @@ public class UserController {
     }
 
     @PostMapping("users/save")
-    public String saveUser(User user, RedirectAttributes redirectAttributes) {
-        userService.save(user);
-        redirectAttributes.addFlashAttribute("message", "Tạo user thành công. .");
+    public String saveUser(User user, RedirectAttributes redirectAttributes,
+                           //"image" match with name="image" in user_form.html (col ~ 133)
+                           @RequestParam("image")MultipartFile multipartFile) throws IOException {
+
+        if (!multipartFile.isEmpty()) {
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            user.setPhotos(fileName);
+            User savedUser = userService.save(user);
+
+            String uploadDir = "user-photos/" + savedUser.getId();  //set directory of photo is "id" of user had saved
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+            redirectAttributes.addFlashAttribute("message", "Tạo user thành công. .");
+        }
+//        userService.save(user);
+
         return "redirect:/users";
     }
 
