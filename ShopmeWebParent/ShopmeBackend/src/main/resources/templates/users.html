@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minium-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>Home - Shopme Admin</title>
 
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
@@ -95,7 +95,8 @@
                 <tr th:each="user : ${listUsers}">
                     <td class="text-center">[[${user.id}]]</td>
                     <td class="text-center">
-                        <i class="fa-solid fa-user fa-2x icon-silver"></i>
+                        <span th:if="${user.photos == null}" class="fa-solid fa-user fa-2x icon-silver"></span>
+                        <img style="width: 100px" th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}"/>
                     </td>
                     <td class="text-center">[[${user.email}]]</td>
                     <td class="text-center">[[${user.firstName}]]</td>

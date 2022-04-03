@@ -130,8 +130,9 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Photos:</label>
                 <div class="col-sm-8">
+                    <input type="hidden" th:field="*{photos}"/>
                     <input name="image" class="mb-2" type="file" id="fileImage" accept="image/png, image/jpeg"/>
-                    <img class="img-fluid" id="thumbnail" alt="Photos preview" th:src="@{/images/default_user.png}"/>
+                    <img class="img-fluid" id="thumbnail" alt="Photos preview" th:src="@{${user.photosImagePath}}"/>
                 </div>
             </div>
 

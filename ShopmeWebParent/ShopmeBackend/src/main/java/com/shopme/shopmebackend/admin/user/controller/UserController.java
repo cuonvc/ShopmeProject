@@ -58,10 +58,17 @@ public class UserController {
             User savedUser = userService.save(user);
 
             String uploadDir = "user-photos/" + savedUser.getId();  //set directory of photo is "id" of user had saved
+
+            //Before replacing the new photo (saveFile), it needs to be delete old photo (cleanDir)
+            FileUploadUtil.cleanDir(uploadDir);
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        } else {
+            if (user.getPhotos().isEmpty()) {
+                user.setPhotos(null);
+            }
+            userService.save(user);
             redirectAttributes.addFlashAttribute("message", "Tạo user thành công. .");
         }
-//        userService.save(user);
 
         return "redirect:/users";
     }
