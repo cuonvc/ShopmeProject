@@ -56,6 +56,7 @@ public class UserController {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             user.setPhotos(fileName);
             User savedUser = userService.save(user);
+            redirectAttributes.addFlashAttribute("message", "Tạo user thành công. .");
 
             String uploadDir = "user-photos/" + savedUser.getId();  //set directory of photo is "id" of user had saved
 
@@ -67,7 +68,7 @@ public class UserController {
                 user.setPhotos(null);
             }
             userService.save(user);
-            redirectAttributes.addFlashAttribute("message", "Tạo user thành công. .");
+            redirectAttributes.addFlashAttribute("message", "Updated user thành công. .");
         }
 
         return "redirect:/users";
