@@ -7,6 +7,7 @@ import com.shopme.shopmebackend.admin.user.service.impl.UserService;
 import com.shopme.shopmecommon.entity.Role;
 import com.shopme.shopmecommon.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -28,11 +29,36 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+//    @GetMapping("/users")
+//    public String listAll(Model model) {
+//        List<User> listUsers = userService.listAll();
+//        model.addAttribute("listUsers", listUsers);
+//        return "users";  //users.html
+//    }
+
     @GetMapping("/users")
-    public String listAll(Model model) {
-        List<User> listUsers = userService.listAll();
+    public String listFirstPage() {
+        return defaultRedirectURL;
+    }
+
+    @GetMapping("/users/page/{pageNumber}")
+    public String listByPage(@PathVariable(name = "pageNumber") int pageNumber, Model model) {
+        Page<User> page =  userService.listByPage(pageNumber);
+        List<User> listUsers = page.getContent();
+
+        long startCount = (pageNumber - 1) * userService.USER_PER_PAGE + 1;
+        long endCount = startCount + userService.USER_PER_PAGE - 1;
+        if (endCount > page.getTotalElements()) {
+            endCount = page.getTotalElements();
+        }
+
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("listUsers", listUsers);
-        return "users";  //users.html
+        return "users";
     }
 
     @GetMapping("/users/new")
@@ -56,8 +82,6 @@ public class UserController {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             user.setPhotos(fileName);
             User savedUser = userService.save(user);
-            redirectAttributes.addFlashAttribute("message", "Tạo user thành công. .");
-
             String uploadDir = "user-photos/" + savedUser.getId();  //set directory of photo is "id" of user had saved
 
             //Before replacing the new photo (saveFile), it needs to be delete old photo (cleanDir)
@@ -68,9 +92,10 @@ public class UserController {
                 user.setPhotos(null);
             }
             userService.save(user);
-            redirectAttributes.addFlashAttribute("message", "Updated user thành công. .");
+
         }
 
+        redirectAttributes.addFlashAttribute("message", "saved user thành công. .");
         return "redirect:/users";
     }
 

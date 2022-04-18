@@ -8,7 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -113,5 +118,19 @@ public class UserRepositoryTest {
     public void testEnableUser() {
         Integer id = 10;
         userRepository.updateEnabledStatus(id, true);
+    }
+
+    @Test
+    public void testListFirstPage() {
+        int pageNumber = 0;  //0={1,2,3,4}; 1={5,6,7,8}; 2={9,10,11,12};...
+        //number of object (person) display in a page
+        int pageSize = 4;
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<User> page = userRepository.findAll(pageable);
+
+        List<User> userList = page.getContent();
+
+        userList.forEach(user -> System.out.println(user));
     }
 }

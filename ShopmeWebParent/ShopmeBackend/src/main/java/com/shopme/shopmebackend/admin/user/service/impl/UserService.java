@@ -7,6 +7,9 @@ import com.shopme.shopmebackend.admin.user.service.IUserService;
 import com.shopme.shopmecommon.entity.Role;
 import com.shopme.shopmecommon.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional
 public class UserService implements IUserService {
+
+    public static final int USER_PER_PAGE = 4;
 
     @Autowired
     private UserRepository userRepository;
@@ -31,6 +36,12 @@ public class UserService implements IUserService {
     @Override
     public List<User> listAll() {
         return (List<User>) userRepository.findAll();
+    }
+
+    @Override
+    public Page<User> listByPage(int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, USER_PER_PAGE);
+        return userRepository.findAll(pageable);
     }
 
     @Override
