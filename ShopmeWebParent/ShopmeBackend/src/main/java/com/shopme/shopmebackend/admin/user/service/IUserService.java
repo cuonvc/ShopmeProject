@@ -10,7 +10,7 @@ import java.util.List;
 public interface IUserService {
 
     List<User> listAll();
-    Page<User> listByPage(int pageNumber);
+    Page<User> listByPage(int pageNumber, String sortField, String sortDir);
     List<Role> listRoles();
     User save(User user);
     boolean isEmailUniqe(String email, Integer id);

@@ -8,6 +8,7 @@ import com.shopme.shopmecommon.entity.Role;
 import com.shopme.shopmecommon.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -37,13 +38,14 @@ public class UserController {
 //    }
 
     @GetMapping("/users")
-    public String listFirstPage() {
-        return defaultRedirectURL;
+    public String listFirstPage(Model model) {
+        return listByPage(1, model, "firstName", "asc");  //default is "firstName" field and ascending
     }
 
     @GetMapping("/users/page/{pageNumber}")
-    public String listByPage(@PathVariable(name = "pageNumber") int pageNumber, Model model) {
-        Page<User> page =  userService.listByPage(pageNumber);
+    public String listByPage(@PathVariable(name = "pageNumber") int pageNumber, Model model,
+                             String sortField, String sortDir) {
+        Page<User> page =  userService.listByPage(pageNumber, sortField, sortDir);
         List<User> listUsers = page.getContent();
 
         long startCount = (pageNumber - 1) * userService.USER_PER_PAGE + 1;
@@ -52,12 +54,22 @@ public class UserController {
             endCount = page.getTotalElements();
         }
 
+        String reverseSortDir = "";
+        if (sortDir.equals("asc")) {
+            reverseSortDir = "desc";
+        } else {
+            reverseSortDir = "asc";
+        }
+
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("startCount", startCount);
         model.addAttribute("endCount", endCount);
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("listUsers", listUsers);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", reverseSortDir);
         return "users";
     }
 
