@@ -40,7 +40,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Page<User> listByPage(int pageNumber, String sortField, String sortDir) {
+    public Page<User> listByPage(int pageNumber, String sortField, String sortDir, String keyword) {
         Sort sort = Sort.by(sortField);
         if (sortDir.equals("asc")) {
             sort = sort.ascending();
@@ -49,6 +49,11 @@ public class UserService implements IUserService {
         }
 
         Pageable pageable = PageRequest.of(pageNumber - 1, USER_PER_PAGE, sort);
+
+        if (keyword != null) {
+            return userRepository.findAll(keyword, pageable);
+        }
+
         return userRepository.findAll(pageable);
     }
 
