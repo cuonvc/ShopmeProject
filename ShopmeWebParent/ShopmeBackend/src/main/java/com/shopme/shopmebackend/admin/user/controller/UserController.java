@@ -4,6 +4,7 @@ import com.shopme.shopmebackend.admin.FileUploadUtil;
 import com.shopme.shopmebackend.admin.user.exception.UserNotFoundException;
 import com.shopme.shopmebackend.admin.user.exporter.UserCsvExporter;
 import com.shopme.shopmebackend.admin.user.exporter.UserExcelExporter;
+import com.shopme.shopmebackend.admin.user.exporter.UserPdfExporter;
 import com.shopme.shopmebackend.admin.user.repository.UserRepository;
 import com.shopme.shopmebackend.admin.user.service.impl.UserService;
 import com.shopme.shopmecommon.entity.Role;
@@ -182,6 +183,14 @@ public class UserController {
     public void exportToExcel(HttpServletResponse response) throws IOException {
         List<User> listUsers = userService.listAll();
         UserExcelExporter exporter = new UserExcelExporter();
+
+        exporter.export(listUsers, response);
+    }
+
+    @GetMapping("/users/export/pdf")
+    public void exportToPdf(HttpServletResponse response) throws IOException {
+        List<User> listUsers = userService.listAll();
+        UserPdfExporter exporter = new UserPdfExporter();
 
         exporter.export(listUsers, response);
     }
