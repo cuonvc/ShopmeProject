@@ -17,3 +17,26 @@
 *.icon-green {
     color: lawngreen;
 }
+
+*.color-white {
+    color: white;
+}
+
+/*mobile*/
+@media screen and (max-width: 768px) {
+    div.full-details {
+        display: none;
+    }
+}
+
+/*tablet*/
+@media screen and (max-width: 769px) and (max-width: 1024px) {
+    div.full-details {
+        display: block;
+    }
+}
+
+/*pc*/
+@media screen and (min-width: 1024px) {
+
+}

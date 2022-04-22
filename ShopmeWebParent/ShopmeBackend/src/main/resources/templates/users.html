@@ -18,9 +18,9 @@
     <div>
 
         <!-- header -->
-        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: orange">
             <a class="navbar-brand" th:href="@{/}">
-                <img th:src="@{/images/ShopmeAdminSmall.png}">
+                <img th:src="@{/images/shop.png}">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavBar">
                     <span class="navbar-toggler-icon">
@@ -69,13 +69,18 @@
     <!-- content -->
     <div>
         <h2>Manage users</h2>
-        <a th:href="@{/users/new}" style="text-decoration: underline">Create new user</a>
-        &nbsp;|&nbsp;
-        <a th:href="@{/users/export/csv}" style="text-decoration: underline">Export to csv</a>
-        &nbsp;|&nbsp;
-        <a th:href="@{/users/export/excel}" style="text-decoration: underline">Export to Excel</a>
-        &nbsp;|&nbsp;
-        <a th:href="@{/users/export/pdf}" style="text-decoration: underline">Export to PDF</a>
+        <a th:href="@{/users/new}" style="text-decoration: none; margin: 6px">
+            <i class="fa-solid fa-user-plus" title="Create new user"></i>
+        </a>
+        <a th:href="@{/users/export/csv}" style="text-decoration: none; margin: 6px">
+            <i class="fa-solid fa-file-csv" title="Export to CSV"></i>
+        </a>
+        <a th:href="@{/users/export/excel}" style="text-decoration: none; margin: 6px">
+            <i class="fa-solid fa-file-excel" title="Export to Excel"></i>
+        </a>
+        <a th:href="@{/users/export/pdf}" style="text-decoration: none; margin: 6px">
+            <i class="fa-solid fa-file-pdf" title="Export to PDF"></i>
+        </a>
     </div>
 
     <div th:if="${message != null}" class="alert alert-success text-center">
@@ -87,22 +92,25 @@
             <input type="hidden" name="sortField" th:value="${sortField}"/>
             <input type="hidden" name="sortDir" th:value="${sortDir}"/>
 
-            Filter:&nbsp;
             <input type="search" name="keyword" class="form-control" required/>
             &nbsp;&nbsp;
-            <input type="submit" value="Search" class="btn btn-primary"/>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
             &nbsp;&nbsp;
-            <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()"/>
+            <button type="button" class="btn btn-secondary" onclick="clearFilter()">
+                <i class="fa-solid fa-ban"></i>
+            </button>
         </form>
     </div>
 
-    <div>
+    <div class="full-details">
         <table class="table table-bordered table-hover table-responsive-xl">
-            <thead class="thead-dark">
+            <thead class="" style="background-color: orange">
                 <tr>
                     <th th:replace="fragments :: column_link('id', 'User ID')"/>
 
-                    <th class="text-center">Photos</th>
+                    <th class="text-center color-white" style="color: #fff">Photos</th>
 
                     <th th:replace="fragments :: column_link('email', 'Email')"/>
 
@@ -110,9 +118,9 @@
 
                     <th th:replace="fragments :: column_link('lastName', 'Last Name')"/>
 
-                    <th class="text-center">Roles</th>
-                    <th class="text-center">Enabled</th>
-                    <th class="text-center">Manage</th>
+                    <th class="text-center color-white">Roles</th>
+                    <th class="text-center color-white">Enabled</th>
+                    <th class="text-center color-white">Manage</th>
                 </tr>
             </thead>
 
@@ -148,7 +156,6 @@
 
                 </tr>
             </tbody>
-
         </table>
     </div>
 
