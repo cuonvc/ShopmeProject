@@ -1,99 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
                 xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head>
-    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minium-scale=1.0">
-    <title>Home - Shopme Admin</title>
+<head th:replace="fragments :: page_head('Home - Admin')"><head/>
 
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/css/all.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-</head>
 <body>
 
     <div class="container-fluid">
         <!-- header -->
-        <div>
-            <form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
-                <input type="submit"/>
-            </form>
-
-            <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: orange">
-                <a class="navbar-brand" th:href="@{/}">
-                    <img th:src="@{/images/shop.png}">
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavBar">
-                    <span class="navbar-toggler-icon">
-                    </span>
-                </button>
-                <div class="collapse navbar-collapse" id="topNavBar">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/users}">User</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/Categories}">Categories</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/Brands}">Brands</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/Products}">Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/Customers}">Customers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/Shipping}">Shipping</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/Orders}">Order</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/Sales report}">Sales report</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/Articles}">Articles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/Menus}">Menus</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/Settings}">Setting</a>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-user fa-2x icon-while"></i>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                               sec:authentication="principal.fullname"></a>  <!--username from userDetails-->
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" id="logoutLink" href="">Logout</a>
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
-            </nav>
-        </div>
+        <div th:replace="nav :: menu"></div>
 
         <!--content-->
         <div>
             <h1>Welcome to Shopme - Admin</h1>
         </div>
-    </div>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#logoutLink").on("click", function (e) {
-            e.preventDefault();
-            document.logoutForm.submit();
-        })
-    })
-</script>
+        <div th:replace="fragments :: footer"></div>
+    </div>
 
 </body>
 </html>
