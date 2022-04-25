@@ -44,6 +44,10 @@ public class ShopmeUserDetails implements UserDetails {
         return user.getEmail();
     }
 
+    public String getFullname() {
+        return this.user.getFirstName() + this.user.getLastName();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
