@@ -48,7 +48,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginPage("/login").usernameParameter("email").permitAll()
                 .and()
-                .logout().permitAll();
+                .logout().permitAll()
+                .and()
+                    //key can be random or set default like below
+                .rememberMe().key("bacdsfdfsdfhsdhfhhehhfshfe").tokenValiditySeconds(60);  //validate of key (seconds)
     }
 
     @Override
