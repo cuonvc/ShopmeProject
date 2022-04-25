@@ -67,8 +67,8 @@ public class UserService implements IUserService {
         boolean isUpdatingUser = (user.getId() != null);
         if (isUpdatingUser) {
             User existingUser = userRepository.findById(user.getId()).get();
-            if (user.getPassWord().isEmpty()) {
-                user.setPassWord(existingUser.getPassWord());
+            if (user.getPassword().isEmpty()) {
+                user.setPassword(existingUser.getPassword());
             } else {
                 encodePassword(user);
             }
@@ -126,8 +126,8 @@ public class UserService implements IUserService {
     }
 
     private void encodePassword(User user) {
-        String encodedPassword = passwordEncoder.encode(user.getPassWord());
-        user.setPassWord(encodedPassword);
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
     }
 
 

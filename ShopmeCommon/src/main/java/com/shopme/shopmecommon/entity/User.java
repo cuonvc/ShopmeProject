@@ -12,11 +12,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "email", length = 128, nullable = false, unique = true)
+    @Column(length = 128, nullable = false, unique = true)
     private String email;
 
-    @Column(name = "pass_word", length = 100, nullable = false)
-    private String passWord;
+    @Column(name = "enabled")
+    private Boolean enabled;
 
     @Column(name = "first_name", length = 50, nullable = false)
     private String firstName;
@@ -24,11 +24,13 @@ public class User {
     @Column(name = "last_name", length = 50, nullable = false)
     private String lastName;
 
+    @Column(length = 100, nullable = false)
+    private String password;
+
     @Column(name = "photos", length = 255)
     private String photos;
 
-    @Column(name = "enabled")
-    private Boolean enabled;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -41,9 +43,9 @@ public class User {
     public User() {
     }
 
-    public User(String email, String passWord, String firstName, String lastName) {
+    public User(String email, String password, String firstName, String lastName) {
         this.email = email;
-        this.passWord = passWord;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -64,12 +66,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
