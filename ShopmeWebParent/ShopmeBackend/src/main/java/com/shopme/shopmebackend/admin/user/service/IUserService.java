@@ -13,8 +13,10 @@ public interface IUserService {
     Page<User> listByPage(int pageNumber, String sortField, String sortDir, String keyword);
     List<Role> listRoles();
     User save(User user);
+    User updateAccount(User user);
     boolean isEmailUniqe(String email, Integer id);
     User getById(Integer id) throws UserNotFoundException;
+    User getByEmail(String email);
     void deteteById(Integer id) throws UserNotFoundException;
     void updateUserEnabledStatus(Integer id, boolean status);
 }

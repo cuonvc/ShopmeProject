@@ -51,12 +51,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().permitAll()
                 .and()
                     //key can be random or set default like below
-                .rememberMe().key("bacdsfdfsdfhsdhfhhehhfshfe").tokenValiditySeconds(60);  //validate of key (seconds)
+                .rememberMe().key("abcdefghijklmop_123456789").tokenValiditySeconds(24 * 60 * 60);  //validate of key (seconds)
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**");
+        web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**", "/css/**", "/fontawesome/**");
     }
 
 

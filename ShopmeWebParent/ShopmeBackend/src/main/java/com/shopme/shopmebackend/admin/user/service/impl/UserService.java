@@ -80,6 +80,25 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User updateAccount(User userInForm) {
+        User userInDB = userRepository.findById(userInForm.getId()).get();
+
+        if (!userInForm.getPassword().isEmpty()) {
+            userInDB.setPassword(userInForm.getPassword());
+            encodePassword(userInDB);
+        }
+
+        if (userInForm.getPhotos() != null) {
+            userInDB.setPhotos(userInForm.getPhotos());
+        }
+
+        userInDB.setFirstName(userInForm.getFirstName());
+        userInDB.setLastName(userInForm.getLastName());
+
+        return userRepository.save(userInDB);
+    }
+
+    @Override
     public boolean isEmailUniqe(String email, Integer id) {
         User userByEmail = userRepository.getUserByEmail(email);
 
@@ -108,6 +127,11 @@ public class UserService implements IUserService {
         } catch (NoSuchElementException exception) {
             throw new UserNotFoundException("Could not find any user by id: " + id);
         }
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        return userRepository.getUserByEmail(email);
     }
 
     @Override
