@@ -11,7 +11,12 @@
 
         <!--content-->
         <div>
-            <h1>Welcome to Shopme - Admin</h1>
+            <h2>Welcome to Shopme - Admin</h2>
+            Welcome
+            <a th:href="@{/account}"
+               sec:authentication="principal.fullname"> <!--fullname from shopmeUserDetails-->
+            </a>
+            <span sec:authentication="principal.authorities"></span>  <!--authorities from shopmeUserDetails-->
         </div>
 
         <div th:replace="fragments :: footer"></div>
