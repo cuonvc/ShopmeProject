@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
-<head th:replace="fragments :: page_head(${pageTitle})"></head>
+<head th:replace="fragments :: page_head('Account details')"></head>
 
 <body>
 
@@ -11,20 +11,24 @@
     <div th:replace="nav :: menu"></div>
 
     <!-- content -->
-    <div>
-        <h2>Manage users | [[${pageTitle}]]</h2>
-    </div>
-
-    <form th:action="@{/users/save}" method="post" style="max-width: 700px; margin: 0 auto"
-          th:object="${user}" onsubmit="return checkEmailUnique(this);"
+    <form th:action="@{/account/update}" method="post" style="max-width: 700px; margin: 0 auto"
+          th:object="${user}"
           enctype="multipart/form-data">
+
+        <div class="text-center m-3">
+            <h2>Your account details</h2>
+        </div>
+
+        <div th:if="${message != null}" class="alert alert-success text-center">
+            [[${message}]]
+        </div>
 
         <input type="hidden" th:field="*{id}"/>
         <div class="border border-secondary rounded p-3">
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Email:</label>
                 <div class="col-sm-8">
-                    <input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="128"/>
+                    <input type="email" class="form-control" th:field="*{email}" readonly="readonly"/>
                 </div>
             </div>
 
@@ -45,32 +49,21 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Password:</label>
                 <div class="col-sm-8">
-                    <input type="password" th:if="${user.id == null}" class="form-control" th:field="*{password}" required minlength="8" maxlength="100"/>
-                    <input type="password" th:if="${user.id != null}" class="form-control" th:field="*{password}" minlength="8" maxlength="100"/>
+                    <input type="password" th:field="*{password}" class="form-control" minlength="8" maxlength="100"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Confirm Password:</label>
+                <div class="col-sm-8">
+                    <input type="password" id="confirmPassword" class="form-control" minlength="8" maxlength="100"
+                    oninput="checkPasswordMatch(this)"/>
                 </div>
             </div>
 
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Roles:</label>
                 <div class="col-sm-8">
-                    <th:block th:each="role : ${listRoles}">
-                        <input type="checkbox" th:field="*{roles}"
-                            th:text="${role.name}"
-                            th:value="${role.id}"
-                               class="m-2"
-                        />
-                    - <small>
-                        [[${role.description}]]
-                    </small>
-                        <br/>
-                    </th:block>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Enabled:</label>
-                <div class="col-sm-8">
-                    <input type="checkbox" th:field="*{enabled}"/>
+                    <span><b>[[${user.roles}]]</b></span>
                 </div>
             </div>
 
@@ -90,28 +83,24 @@
         </div>
     </form>
 
-    <div class="modal fade text-center" id="modalDialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modalTitle">Warning</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <div class="modal-body">
-                    <span id="modalBody"></span>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- footer -->
     <div th:replace="fragments :: footer"></div>
 </div>
+
+<script type="text/javascript">
+
+    moduleURL = "[[@{/}]]";  //back to the users listing page (ShopmeAdmin/)
+
+    function checkPasswordMatch(confirmPassword) {
+        if (confirmPassword.value != $("#password").val()) {
+            confirmPassword.setCustomValidity("Password is not match!");
+        } else {
+            confirmPassword.setCustomValidity("");
+        }
+    }
+</script>
+
+<script th:src="@{/js/common_form.js}"></script>
 
 </body>
 </html>

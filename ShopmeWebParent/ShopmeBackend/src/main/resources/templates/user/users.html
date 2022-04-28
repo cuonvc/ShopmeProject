@@ -154,5 +154,22 @@
     <div th:replace="fragments :: footer"></div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".link-delete").on("click", function(e) {
+            e.preventDefault();
+            link = $(this);
+            userEmail = link.attr("userEmail");
+            $("#yesBtn").attr("href", link.attr("href"));
+            $("#confirmText").text("Do you want to delete user: " + userEmail);
+            $("#confirmModal").modal();
+        })
+    })
+
+    function clearFilter() {
+        window.location = "/ShopmeAdmin/users";
+    }
+</script>
+
 </body>
 </html>
