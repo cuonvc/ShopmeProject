@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Category management')"></head>
+<body>
+
+<div class="container-fluid">
+
+  <!-- header -->
+  <div th:replace="nav :: menu"></div>
+
+  <!-- content -->
+<!--  <div>-->
+<!--    <h2>Manage Categories</h2>-->
+<!--    <a th:href="@{/users/new}" style="text-decoration: none; margin: 6px">-->
+<!--      <i class="fa-solid fa-user-plus" title="Create new user"></i>-->
+<!--    </a>-->
+<!--    <a th:href="@{/users/export/csv}" style="text-decoration: none; margin: 6px">-->
+<!--      <i class="fa-solid fa-file-csv" title="Export to CSV"></i>-->
+<!--    </a>-->
+<!--    <a th:href="@{/users/export/excel}" style="text-decoration: none; margin: 6px">-->
+<!--      <i class="fa-solid fa-file-excel" title="Export to Excel"></i>-->
+<!--    </a>-->
+<!--    <a th:href="@{/users/export/pdf}" style="text-decoration: none; margin: 6px">-->
+<!--      <i class="fa-solid fa-file-pdf" title="Export to PDF"></i>-->
+<!--    </a>-->
+<!--  </div>-->
+
+  <div th:if="${message != null}" class="alert alert-success text-center">
+    [[${message}]]
+  </div>
+
+<!--  <div>-->
+<!--    <form th:action="@{/users/page/1}" class="form-inline m-3">-->
+<!--      <input type="hidden" name="sortField" th:value="${sortField}"/>-->
+<!--      <input type="hidden" name="sortDir" th:value="${sortDir}"/>-->
+
+<!--      <input type="search" name="keyword" placeholder="Search here..." class="form-control" required/>-->
+<!--      &nbsp;&nbsp;-->
+<!--      <button type="submit" class="btn btn-primary">-->
+<!--        <i class="fa-solid fa-magnifying-glass"></i>-->
+<!--      </button>-->
+<!--      &nbsp;&nbsp;-->
+<!--      <button type="button" class="btn btn-secondary" onclick="clearFilter()">-->
+<!--        <i class="fa-solid fa-ban"></i>-->
+<!--      </button>-->
+<!--    </form>-->
+<!--  </div>-->
+
+  <div class="full-details">
+    <table class="table table-bordered table-hover table-responsive-xl">
+      <thead class="" style="background-color: orange">
+      <tr>
+        <th th:replace="fragments :: column_link('id', 'Category ID')"/>
+
+        <th class="text-center color-white" style="color: #fff">Photos</th>
+
+        <th th:replace="fragments :: column_link('name', 'Category name')"/>
+
+        <th class="text-center color-white">Alias</th>
+        <th class="text-center color-white">Enabled</th>
+        <th class="text-center color-white">Manage</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr th:each="category : ${categoryList}">
+        <td class="text-center">[[${category.id}]]</td>
+        <td class="text-center">
+<!--          <span th:if="${category.image == null}" class="fa-solid fa-user fa-2x icon-silver"></span>-->
+<!--          <img style="width: 100px" th:if="${category.image != null}" th:src="@{${category.photosImagePath}}"/>-->
+        </td>
+        <td class="text-center">[[${category.name}]]</td>
+        <td class="text-center">[[${category.alias}]]</td>
+
+        <td class="text-center">
+          <a style="text-decoration: none" th:if="${category.enabled == true}"
+             class="fa-solid fa-circle-check icon-green"
+             th:href="@{'/categories/' + ${category.id} + '/enabled/false'}" title="Disable this category"></a>
+          <a style="text-decoration: none" th:if="${category.enabled == false}"
+             class="fa-solid fa-circle-check icon-silver"
+             th:href="@{'/categories/' + ${category.id} + '/enabled/true'}" title="Enable this category"></a>
+        </td>
+
+        <td>
+          <a class="fa-solid fa-pen-to-square" th:href="@{'/categories/edit/' + ${category.id}}"
+             title="Edit this category"></a>
+          &nbsp
+          <a class="fa-solid fa-trash icon-silver link-delete" th:href="@{'/categories/delete/' + ${category.id}}"
+             title="Delete this category">
+<!--             th:userEmail="${category.email}">-->
+          </a>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+<!--  <div class="modal fade text-center" id="confirmModal">-->
+<!--    <div class="modal-dialog">-->
+<!--      <div class="modal-content">-->
+<!--        <div class="modal-header">-->
+<!--          <h4 class="modal-title" id="modalTitle">Delete user</h4>-->
+<!--          <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+<!--        </div>-->
+
+<!--        <div class="modal-body">-->
+<!--          <span id="confirmText"></span>-->
+<!--        </div>-->
+
+<!--        <div class="modal-footer">-->
+<!--          <a class="btn btn-success" href="" id="yesBtn">Yes</a>-->
+<!--          <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="text-center m-1" th:if="${totalItems > 0}">-->
+<!--    <span>Showing users # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>-->
+<!--  </div>-->
+<!--  <div class="text-center m-1" th:unless="${totalItems > 0}">-->
+<!--    <span>No user found</span>-->
+<!--  </div>-->
+
+<!--  <div th:if="${totalPages > 0}">-->
+<!--    <nav>-->
+<!--      <ul class="pagination justify-content-center">-->
+<!--        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">-->
+<!--          <a th:replace="fragments :: page_link(1, 'First')"></a>-->
+<!--        </li>-->
+<!--        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">-->
+<!--          <a th:replace="fragments :: page_link(${currentPage - 1}, 'Previous')"></a>-->
+<!--        </li>-->
+<!--        <li th:class="${currentPage != item ? 'page-item' : 'page-item active'}" th:each="item : ${#numbers.sequence(1, totalPages)}">-->
+<!--          <a th:replace="fragments :: page_link(${item}, ${item})"></a>-->
+<!--        </li>-->
+<!--        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">-->
+<!--          <a th:replace="fragments :: page_link(${currentPage + 1}, 'Next')"></a>-->
+<!--        </li>-->
+<!--        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">-->
+<!--          <a th:replace="fragments :: page_link(${totalPages}, 'Last')"></a>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </nav>-->
+<!--  </div>-->
+
+  <!-- footer -->
+  <div th:replace="fragments :: footer"></div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".link-delete").on("click", function(e) {
+      e.preventDefault();
+      link = $(this);
+      userEmail = link.attr("userEmail");
+      $("#yesBtn").attr("href", link.attr("href"));
+      $("#confirmText").text("Do you want to delete user: " + userEmail);
+      $("#confirmModal").modal();
+    })
+  })
+
+  // function clearFilter() {
+  //   window.location = "/ShopmeAdmin/users";
+  // }
+</script>
+
+</body>
+</html>
