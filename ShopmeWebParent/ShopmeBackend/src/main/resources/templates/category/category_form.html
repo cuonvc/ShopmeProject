@@ -58,7 +58,7 @@
                 <label class="col-sm-4 col-form-label">Image:</label>
                 <div class="col-sm-8">
                     <input type="hidden" th:field="*{image}"/>
-                    <input name="image" class="mb-2" type="file" id="fileImage" accept="image/png, image/jpeg"/>
+                    <input name="fileImage" class="mb-2" type="file" id="fileImage" accept="image/png, image/jpeg"/>
                     <img class="img-fluid" id="thumbnail" alt="Image preview"
                          th:src="@{/images/default_category.jpg}"
                             style="max-width: 100px"/>

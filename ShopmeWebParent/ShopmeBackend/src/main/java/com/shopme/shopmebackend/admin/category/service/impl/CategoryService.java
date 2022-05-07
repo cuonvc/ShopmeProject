@@ -42,6 +42,11 @@ public class CategoryService implements ICategoryService {
         return categoriesUsedInForm;
     }
 
+    @Override
+    public Category save(Category category) {
+        return repository.save(category);
+    }
+
     private void listChildren(List<Category> categoriesUsedInForm, Category parent, int sublevel) {
         int newSubLevel = sublevel + 1;
         Set<Category> children = parent.getChildren();
