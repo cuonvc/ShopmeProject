@@ -36,13 +36,15 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Parent category:</label>
+                <label class="col-sm-4 col-form-label">Parent Category:</label>
                 <div class="col-sm-8">
                     <select class="form-control" th:field="*{parent}">
-                        <option value="0">No parent</option>
-                        <th:block th:each="cate : ${categoryList}">
-                            <option th:value="${cate.id}">[[${cate.name}]]</option>
+                        <option value="0">[No Parent]</option>
+
+                        <th:block th:each="cat : ${categoryList}">
+                            <option th:value="${cat.id}">[[${cat.name}]]</option>
                         </th:block>
+
                     </select>
                 </div>
             </div>

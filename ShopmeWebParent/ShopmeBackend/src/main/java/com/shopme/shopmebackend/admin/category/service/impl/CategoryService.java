@@ -29,16 +29,21 @@ public class CategoryService implements ICategoryService {
 
         for (Category category : categoriesInDB) {
             if (category.getParent() == null) {
-                categoriesUsedInForm.add(new Category(category.getName()));
+
+                categoriesUsedInForm.add(Category.copyIdAndName(category));
+
                 Set<Category> children = category.getChildren();
 
                 for (Category subCategory : children) {
                     String name = "--" + subCategory.getName();
-                    categoriesUsedInForm.add(new Category(name));
+
+                    categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
+
                     listChildren(categoriesUsedInForm, subCategory, 1);
                 }
             }
         }
+
         return categoriesUsedInForm;
     }
 
@@ -47,8 +52,8 @@ public class CategoryService implements ICategoryService {
         return repository.save(category);
     }
 
-    private void listChildren(List<Category> categoriesUsedInForm, Category parent, int sublevel) {
-        int newSubLevel = sublevel + 1;
+    private void listChildren(List<Category> categoriesUsedInForm, Category parent, int subLevel) {
+        int newSubLevel = subLevel + 1;
         Set<Category> children = parent.getChildren();
 
         for (Category subCategory : children) {
@@ -57,7 +62,8 @@ public class CategoryService implements ICategoryService {
                 name += "--";
             }
             name += subCategory.getName();
-            categoriesUsedInForm.add(new Category(name));
+
+            categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
 
             listChildren(categoriesUsedInForm, subCategory, newSubLevel);
         }

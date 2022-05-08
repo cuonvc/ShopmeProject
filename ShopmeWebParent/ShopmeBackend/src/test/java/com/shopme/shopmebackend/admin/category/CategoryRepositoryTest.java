@@ -52,4 +52,10 @@ public class CategoryRepositoryTest {
             System.out.println(subCategory.getName());  //sub category
         }
     }
+
+    @Test
+    public void listCategoryRoot() {
+        List<Category> categoryList = categoryRepository.findCategoryRoot();
+        categoryList.forEach(c -> System.out.println(c.getName()));
+    }
 }

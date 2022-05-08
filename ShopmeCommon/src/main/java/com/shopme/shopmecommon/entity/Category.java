@@ -24,7 +24,7 @@ public class Category {
     @Column()
     private boolean enabled;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "parent_id")
     private Category parent;
 
@@ -53,6 +53,22 @@ public class Category {
         this.name = name;
         this.alias = alias;
         this.image = image;
+    }
+
+    public static Category copyIdAndName(Category category) {
+        Category copyCategory =  new Category();
+        copyCategory.setId(category.getId());
+        copyCategory.setName(category.getName());
+
+        return copyCategory;
+    }
+
+    public static Category copyIdAndName(Integer id, String name) {
+        Category copyCategroy = new Category();
+        copyCategroy.setId(id);
+        copyCategroy.setName(name);
+
+        return copyCategroy;
     }
 
     public Integer getId() {
