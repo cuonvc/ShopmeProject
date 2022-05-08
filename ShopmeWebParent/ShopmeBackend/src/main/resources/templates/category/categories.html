@@ -66,8 +66,7 @@
       <tr th:each="category : ${categoryList}">
         <td class="text-center">[[${category.id}]]</td>
         <td class="text-center">
-<!--          <span th:if="${category.image == null}" class="fa-solid fa-user fa-2x icon-silver"></span>-->
-<!--          <img style="width: 100px" th:if="${category.image != null}" th:src="@{${category.photosImagePath}}"/>-->
+            <img th:src="@{${category.imagePath}}" style="width: 100px" class="img-fluid"/>
         </td>
         <td class="text-center">[[${category.name}]]</td>
         <td class="text-center">[[${category.alias}]]</td>

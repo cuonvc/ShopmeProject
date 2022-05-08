@@ -18,7 +18,48 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public List<Category> listAll() {
-        return (List<Category>) repository.findAll();
+        List<Category> rootCategories = repository.findCategoryRoot();
+        return listHierarchicalCategories(rootCategories);
+    }
+
+    private List<Category> listHierarchicalCategories(List<Category> rootList) {
+        List<Category> hierarchicalCategories = new ArrayList<>();
+
+        for (Category rootCategory : rootList) {
+            hierarchicalCategories.add(Category.copyFull(rootCategory));
+
+            Set<Category> children = rootCategory.getChildren();
+
+            for (Category subCategory : children) {
+                String name = "--" + subCategory.getName();
+
+                hierarchicalCategories.add(Category.copyFull(subCategory, name));
+
+                listHierarchicalCategories(hierarchicalCategories, subCategory, 1);
+            }
+        }
+
+        return hierarchicalCategories;
+    }
+
+    private void listHierarchicalCategories(List<Category> hierarchicalList,
+                                            Category parent, int subLevel) {
+        Set<Category> children = parent.getChildren();
+        int newSubLevel = subLevel + 1;
+
+        for (Category subCategory : children) {
+            String name = "";
+            for (int i = 0; i < newSubLevel; i++) {
+                name += "--";
+            }
+
+            name += subCategory.getName();
+
+            hierarchicalList.add(Category.copyFull(subCategory, name));
+
+            listHierarchicalCategories(hierarchicalList, subCategory, newSubLevel);
+        }
+
     }
 
     @Override
