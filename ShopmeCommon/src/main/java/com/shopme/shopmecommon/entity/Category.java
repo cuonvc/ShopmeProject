@@ -48,6 +48,12 @@ public class Category {
         this.image = image;
     }
 
+    public Category(Integer id, String name, String alias) {
+        this.id = id;
+        this.name = name;
+        this.alias = alias;
+    }
+
     public Category(Category parent, String name, String alias, String image) {
         this.parent = parent;
         this.name = name;

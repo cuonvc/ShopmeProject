@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(value = false)
@@ -57,5 +59,22 @@ public class CategoryRepositoryTest {
     public void listCategoryRoot() {
         List<Category> categoryList = categoryRepository.findCategoryRoot();
         categoryList.forEach(c -> System.out.println(c.getName()));
+    }
+
+    @Test
+    public void testFindByName() {
+        String name = "Computers";  //test pass
+        String name1 = "Computer"; //test fail
+        Category category = categoryRepository.findByName(name);
+
+        assertThat(category).isNotNull();
+    }
+
+    @Test
+    public void testFindByAlias() {
+        String alias = "Smartphone";
+        Category category = categoryRepository.findByAlias(alias);
+
+        assertThat(category).isNotNull();
     }
 }

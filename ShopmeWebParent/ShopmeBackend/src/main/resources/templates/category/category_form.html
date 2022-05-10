@@ -16,6 +16,7 @@
     </div>
 
     <form th:action="@{/categories/save}" method="post" style="max-width: 700px; margin: 0 auto"
+          onsubmit="return checkUnique(this)"
           th:object="${category}"
           enctype="multipart/form-data">
 
@@ -101,10 +102,30 @@
 
     moduleURL = "[[@{/categories}]]";  //back to the categories listing page (ShopmeAdmin/categories)
 
-    function showModelDialog(title, message) {
-        $("#modalTitle").text(title);
-        $("#modalBody").text(message);
-        $("#modalDialog").modal();
+    function checkUnique(form) {
+        catId = $("#id").val();
+        catName = $("#name").val();
+        catAlias = $("#alias").val();
+
+        csrfValue = $("input[name = '_csrf']").val();  //CSRF token Spring security
+        url = "[[@{/categories/check_unique}]]";
+        params = {id: catId, name: catName, alias: catAlias, _csrf: csrfValue};
+
+        $.post(url, params, function(response){
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "Duplicate name") {
+                alert('There is another category having same name: ' + catName);
+            } else if (response == "Duplicate alias") {
+                alert('There is another category having same alias: ' + catAlias);
+            } else {
+                alert('Unknown response from server');
+            }
+        }).fail(function () {
+            alert('Could not connect to the server');
+        });
+
+        return false;
     }
 </script>
 

@@ -105,6 +105,34 @@ public class CategoryService implements ICategoryService {
         return repository.save(category);
     }
 
+    @Override
+    public String checkUnique(Integer id, String name, String alias) {
+        boolean isCreateCategory = (id == null || id == 0);
+        Category categoryByName = repository.findByName(name);
+        Category categoryByAlias = repository.findByAlias(alias);
+
+        if (isCreateCategory) {  //new mode
+            if (categoryByName != null) {  //name already exist
+                return "Duplicate name";
+            } else {
+
+                if (categoryByAlias != null) {
+                    return "Duplicate alias";
+                }
+            }
+        } else {  //edit mode
+            if (categoryByName != null && categoryByName.getId() != id) {
+                return "Duplicate name";
+            }
+
+            if (categoryByAlias != null && categoryByAlias.getId() != id) {
+                return "Duplicate alias";
+            }
+
+        }
+        return "OK";
+    }
+
     private void listChildren(List<Category> categoriesUsedInForm, Category parent, int subLevel) {
         int newSubLevel = subLevel + 1;
         Set<Category> children = parent.getChildren();
