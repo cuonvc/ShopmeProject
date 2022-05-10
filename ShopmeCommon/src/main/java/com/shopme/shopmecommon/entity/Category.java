@@ -148,6 +148,10 @@ public class Category {
 
     @Transient
     public String getImagePath() {
+        if (this.image == null) {
+            return "/images/default_category.jpg";
+        }
+
         return "/category-images/" + this.id + "/" + this.image;
     }
 }
